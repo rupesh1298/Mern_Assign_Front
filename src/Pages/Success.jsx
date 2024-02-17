@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import {  useNavigate } from 'react-router-dom'
 import { PropagateLoader } from 'react-spinners'
 import { clearCart } from '../Redux/Slices/CartSlices'
 import { ReactTyped } from "react-typed";
@@ -9,7 +9,7 @@ import axios from 'axios'
 axios.defaults.withCredentials = true;
 
 export default function Success() {
-  const user = sessionStorage.getItem("User");
+ 
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -18,18 +18,29 @@ export default function Success() {
   const [email, setEmail] = useState('')
   const[invoice,setInvoice]=useState(false)
   useEffect(() => {
-    getItemCart();
+    getCartItems();
   }, []);
 
-  const getItemCart = async () => {
+ const getCartItems = async () => {
     try {
-      const response=await axios.get(`https://foodmato-zufp.onrender.com/get-cart/${user}`,{ withCredentials: true })
-      setCart(response.data.cartItems);
-   
+      let user = sessionStorage.getItem("User");
+      console.log(user)
+      const res = await axios.get(`https://foodservice-krks.onrender.com/api/get-cart/${user}`, {
+        withCredentials: true
+      });
+      const data = await res.data;
+      console.log(data.cartItems)
+      if (!data.success) {
+        // If the response indicates failure, handle the error
+        throw new Error(data.message);
+      }
+      setCart(data.cartItems)
+
     } catch (error) {
-      console.error("Error fetching cart items:", error);
+      // Handle the error appropriately
+      console.error("An error occurred while fetching user data:", error.message);
     }
-  };
+  }
   useEffect(() => {
     setTimeout(() => {
       setLoading(true)
@@ -39,7 +50,7 @@ export default function Success() {
 
   const handleHome = async () => {
     dispatch(clearCart())
-    await axios.get("https://foodmato-zufp.onrender.com/clearCart", { withCredentials: true })
+    await axios.get("https://foodservice-krks.onrender.com/api/clear-cart", { withCredentials: true })
     navigate("/")
   }
   const handlechange = (e) => {
@@ -62,7 +73,7 @@ export default function Success() {
     e.preventDefault();
     try {
       const response = await toast.promise(
-        axios.post("https://foodmato-zufp.onrender.com/sendemail", { email: email, cart }),
+        axios.post("https://foodservice-krks.onrender.com/api/sendemail", { email: email, cart }),
         {
           loading: "Sending invoice...",
           success: (res) => {

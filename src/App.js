@@ -24,9 +24,6 @@ function App() {
         <Route path='/signup' Component={Signup}></Route>
         <Route path='/forget-pass' Component={ResetPass}></Route>
         <Route path='/verify-otp' Component={VerifyOTP}></Route>
-
-        
-
       </Routes>
      </Router>
     </div>

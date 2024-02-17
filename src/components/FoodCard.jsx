@@ -6,15 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import { setToastMessage } from '../Redux/Slices/ToastSlice.jsx';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
+import { addToCart } from '../Redux/Slices/CartSlices.jsx';
+axios.defaults.withCredentials = true;
 
 
 export default function FoodCard() {
     const dispatch = useDispatch();
-    const[user,setLoginUser]=useState({});
-  
-    const cart = useSelector((state) => state.cart.data);
+    const[loginuser,setLoginUser]=useState(null);
     const search = useSelector((state) => state.search.search)
     const category = useSelector((state) => state.category.category)
 
@@ -23,35 +22,64 @@ export default function FoodCard() {
         getUser()
       }, [])
       const getUser = async () => {
-        const res = await axios.get('https://foodmato-zufp.onrender.com/getuser', {
-          withCredentials: true
-        });
-        const data = await res.data;
-        console.log(data.user)
-        setLoginUser(data.user)
-       
-    }
+        try {
+          const res = await axios.get('https://foodservice-krks.onrender.com/api/get-user', {
+            withCredentials: true
+          });
+          const data = await res.data;
+          if (!data.success) {
+            // If the response indicates failure, handle the error
+            throw new Error(data.message);
+          }
+          console.log(data.user.name);
+            setLoginUser(data.user);
+        } catch (error) {
+          // Handle the error appropriately
+          console.error("An error occurred while fetching user data:", error.message);
+        }
+      }
+  
+    //     try {
+    //         if ( !loginuser) {
+    //             console.log(loginuser);
+    //             toast("Please login first to add an item to the cart", {
+    //                 icon: '🤕 ',
+    //             });
+    //         } else {
+    //             const response = await axios.post(`https://foodservice-krks.onrender.com/api/add-to-cart`, { userId: loginuser._id, item: item });
+    //             const data = response.data;
+    //             if (response.status === 200) {
+    //                 dispatch(setToastMessage(`Added ${item.name} successfully!`));
+    //                 dispatch(addToCart(item));
+    //             } else if(response.status === 400 || response.status === 500) {
+    //                 // Handle server-side errors
+    //                 toast.error(data.message || "Failed to add item to cart");
+    //             }
+    //         }
+    //     } catch (error) {
+    //         console.error("Error adding item to cart:", error);
+    //     } 
+    // };
     const handleAdd = async (item) => {
         try {
-            if ( !user) {
+            if (!loginuser) {
+                // If the user is not logged in, display a message prompting them to log in
                 toast("Please login first to add an item to the cart", {
                     icon: '🤕 ',
                 });
             } else {
-                console.log(user._id)
-                const response = await axios.post(`https://foodmato-zufp.onrender.com/add-to-cart`, { userId: user._id, item: item });
-                const data = response.data;
-                if (response.status === 200) {
+                await axios.post(`https://foodservice-krks.onrender.com/api/add-to-cart/${loginuser._id}`, item);
+                    // If the item is added successfully, dispatch actions and display a success message
                     dispatch(setToastMessage(`Added ${item.name} successfully!`));
-                } else {
-                    // Handle server-side errors
-                    toast.error(data.message || "Failed to add item to cart");
-                }
+                    dispatch(addToCart(item));
+                    // toast.success(`Added ${item.name} successfully!`);
             }
         } catch (error) {
+            // Handle any unexpected errors
             console.error("Error adding item to cart:", error);
-            toast.error("An error occurred while adding item to cart");
+            toast.error("failed  to add to cart");
         }
+
     };
     
     return (

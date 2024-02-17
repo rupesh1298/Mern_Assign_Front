@@ -17,12 +17,12 @@ function Signup() {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios.post(`https://foodmato-zufp.onrender.com/signup`, user)
+        const response = await axios.post(`https://foodservice-krks.onrender.com/api/signup`, user)
         const data = await response.data;
-        if (response.status === 200) {
+        if (response.status === 201) {
              toast.success("Register SuccessFully...") 
              navigate('/login')
-        }else{
+        }else if(response.status===400 || response.status===500){
             toast.error(data.message)
         }
     }

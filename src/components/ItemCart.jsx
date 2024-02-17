@@ -1,32 +1,66 @@
 import React, { useEffect, useState } from 'react'
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai";
 import { BsTrash3Fill } from "react-icons/bs";
-import { useDispatch, useSelector } from 'react-redux';
-import { removeFromCart, plusItem, minusItem } from '../Redux/Slices/CartSlices';
-import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch, useSelector} from 'react-redux';
+import { removeFromCart, plusItem, minusItem} from '../Redux/Slices/CartSlices';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 
 
 export default function ItemCart() {
-
-  const cart = useSelector((state) => state.cart.data)
-  const dispatch = useDispatch()
+//  const[cart,setCart]=useState([])
+const cart=useSelector((state)=>state.cart.data);
+ const dispatch = useDispatch()
+  
   const removeCartItem = async (id, item) => {
-    dispatch(removeFromCart(id)); // Dispatch action to remove item from Redux store
-    await axios.delete(`https://foodmato-zufp.onrender.com/remove-from-cart/${item._id}`); // Send request to server to remove item from cart
-    toast(`Removed ${item.name} SuccessFully.`, {
-      icon: '😣',
-    });
-  };
- const handleIncreament = async (item) => {
-  dispatch(plusItem(item));
-  await axios.put(`https://foodmato-zufp.onrender.com/increment-qty/${item._id}`);
- }
+    try {
+        // Dispatch action to remove item from Redux store
+        dispatch(removeFromCart(id));
 
- const handleDecreament=async(item)=>{
-  dispatch(minusItem(item));
-  await axios.put(`https://foodmato-zufp.onrender.com/decrement-qty/${item._id}`);
- }
+        // Send request to server to remove item from cart
+        await axios.delete(`https://foodservice-krks.onrender.com/api/remove-from-cart/${item._id}`);
+
+        // Display success message
+        toast(`Removed ${item.name} successfully.`, {
+            icon: '😣',
+        });
+    } catch (error) {
+        // Log the error for debugging
+        console.error("Error removing item from cart:", error);
+
+        // Display an appropriate error message based on the error
+        if (error.response && error.response.status === 404) {
+            // Item not found
+            toast.error("Item not found.");
+        } else {
+            // Other errors
+            toast.error("An error occurred while removing the item from the cart.");
+        }
+    }
+};
+
+  const handleIncrement = async (item) => {
+    try {
+      dispatch(plusItem(item));
+      await axios.put(`https://foodservice-krks.onrender.com/api/increament-quantity/${item._id}`);
+    } catch (error) {
+      console.error("Error incrementing quantity:", error);
+      // Handle the error appropriately (e.g., show a toast message)
+      toast.error("An error occurred while incrementing quantity");
+    }
+  };
+
+
+  const handleDecreament = async (item) => {
+    try {
+      dispatch(minusItem(item));
+      await axios.put(`https://foodservice-krks.onrender.com/api/decreament-quantity/${item._id}`);
+    } catch (error) {
+      console.error("Error incrementing quantity:", error);
+      // Handle the error appropriately (e.g., show a toast message)
+      toast.error("An error occurred while incrementing quantity");
+    }
+  }
   return (
     <div className='overflow-hidden'>
       {
@@ -42,7 +76,7 @@ export default function ItemCart() {
 
                   <AiOutlineMinusCircle className=' text-white text-2xl hover:bg-green-400 cursor-pointer mx-2 bg-green-300 rounded-full' onClick={() => handleDecreament(item)} />
                   <span>{item.qty}</span>
-                  <AiOutlinePlusCircle className='text-white text-2xl hover:bg-green-400 cursor-pointer mx-2 bg-green-300 rounded-full' onClick={() => handleIncreament(item)} />
+                  <AiOutlinePlusCircle className='text-white text-2xl hover:bg-green-400 cursor-pointer mx-2 bg-green-300 rounded-full' onClick={() => handleIncrement(item)} />
                 </div>
               </div>
             </div>

@@ -28,14 +28,14 @@ function ResetPass() {
     e.preventDefault()
     try {
       const response = await toast.promise(
-        axios.put("https://foodmato-zufp.onrender.com/resetpass", { email }), {
+        axios.put("https://foodservice-krks.onrender.com/api/reset-password", { email }), {
         loading: 'Sending OTP',
         success: (res) => {
           navigate('/verify-otp')
           return res.data.message
         },
         error: (err) => {
-          return err.message
+          toast.error("Invalid Email")
         }
       });
 
@@ -62,7 +62,7 @@ function ResetPass() {
           backSpeed={50}
           attr="placeholder"
         >
-          <input type="email" name='email' id='email'value={email} className='outline-none border rounded-lg px-3 py-2 focus:border-green-300 text-gray-600 w-[70vw] md:w-[18vw]' autoComplete='off' placeholder='rac@gmail.com' required onChange={handlechange} />
+          <input type="email" name='email' id='email'value={email} className='outline-none border rounded-lg px-3 py-2 focus:border-green-300 text-gray-600 w-[70vw] md:w-[18vw]' autoComplete='off' placeholder='rac@gmail.com' required onChange={handlechange} autoFocus />
         </ReactTyped>
         <button type='submit' className='outline-none border rounded-lg px-3 py-2 text-white bg-green-500 hover:bg-green-600 mt-6'>Send an OTP</button>
         <p className='flex text-xs text-gray-600 gap-2 -mt-1 flex-col text-center'>

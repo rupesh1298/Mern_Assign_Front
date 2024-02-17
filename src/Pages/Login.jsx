@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactTyped } from "react-typed";
 import { loginUser,setUser } from '../Redux/Slices/AuthSLice';
-import { setLogMessage, setToastMessage } from '../Redux/Slices/ToastSlice';
+import { setLogMessage } from '../Redux/Slices/ToastSlice';
 
 function Login() {
   const navigate = useNavigate()
@@ -21,22 +21,26 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post(`https://foodmato-zufp.onrender.com/login`, user);
-        const data = response.data;
+        const response = await axios.post(`https://foodservice-krks.onrender.com/api/login`, user);
+        const data = await response.data;
         console.log(data)
         if (response.status === 200) {
             dispatch(setLogMessage('Login SuccessFully...'));
-            sessionStorage.setItem("User",data.id)
+            dispatch(loginUser());
+            dispatch(setUser(data));
+            sessionStorage.setItem("User",data.name)
             navigate('/');
-        } else if (response.status === 201) {
+        } else if (response.status === 400 ) {
             // Handling other possible errors
             dispatch(setLogMessage('Login Failed...'));
-            toast.error(data.message);
+            setLoginUser({ email: '', password: '' });
+            toast.error("Invalid Credentials");
         }
     } catch (error) {
         // Network error or server error
         dispatch(setLogMessage('Login Failed...'));
-        toast.error("User not Found Please register First");
+        setLoginUser({ email: '', password: '' });
+        toast.error("Invalid Credential Or User not Found");
     }
 };
   return (

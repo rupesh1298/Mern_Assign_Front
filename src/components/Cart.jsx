@@ -1,23 +1,22 @@
 import React, { useState } from 'react'
 import { MdClose } from "react-icons/md";
-import { FaRegWindowClose } from "react-icons/fa";
+
 import ItemCart from './ItemCart';
 import { FaShoppingCart } from "react-icons/fa";
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom'
+
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 export default function Cart() {
   const[active,setActive]=useState(false)
   const cart=useSelector((state)=>state.cart.data);
-  const getUser = useSelector((state) => state.auth.user);
+ 
   const totalAmt=cart.reduce((acc,item)=>item.price * item.qty+acc,0);
   const totalItem=cart.reduce((acc,item)=>item.qty+acc,0);
-  const navigate=useNavigate();
   const handleCheck=async()=>{
     //FOR TOKEN VERIFICATION USE AXIOS.DEFAULTS.WITHCREDENTIAL
-   const res=await axios.get("https://foodmato-zufp.onrender.com/checkout",{withCredentials:true})
+   const res=await axios.get("https://foodservice-krks.onrender.com/api/checkout",{withCredentials:true})
    const data=await res.data;
    console.log(data);
    const {url}=await res.data; //directly destucture url
