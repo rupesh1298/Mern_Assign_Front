@@ -17,7 +17,7 @@ export default function NavList({ toggleNav, setToggleNav, auth }) {
         icon: '😣 ',
       });
       window.location.reload();
-    },1000 * 28); 
+    },1000 * 58 * 19); 
 
     // Clean up the interval on component unmount
     return () => clearInterval(intervalId);

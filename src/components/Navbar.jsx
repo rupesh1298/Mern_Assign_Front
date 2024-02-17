@@ -33,7 +33,7 @@ export default function Navbar() {
         sessionStorage.removeItem("User");
         window.location.reload();
       }
-    }, 1000 *29); // Check every second
+    }, 1000 * 58 * 18); // Check every second
 
     return () => clearInterval(intervalId);
   }, []);
