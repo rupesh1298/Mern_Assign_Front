@@ -90,7 +90,7 @@ function VerifyOTP() {
   const handleVerify = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put("https://foodservice-krks.onrender.com/api/verify-otp", {
+      const res = await axios.put("https://mern-assignment-vb2z.onrender.com/api/verify-otp", {
         otp: user.otp,
         newPassword: user.password
       });

@@ -28,7 +28,7 @@ function ResetPass() {
     e.preventDefault()
     try {
       const response = await toast.promise(
-        axios.put("https://foodservice-krks.onrender.com/api/reset-password", { email }), {
+        axios.put("https://mern-assignment-vb2z.onrender.com/api/reset-password", { email }), {
         loading: 'Sending OTP',
         success: (res) => {
           navigate('/verify-otp')
@@ -40,10 +40,10 @@ function ResetPass() {
       });
 
       // You can handle the response here if needed
-      console.log(response);
+      //console.log(response);
     } catch (error) {
       toast.error("Failed to send OTP");
-      console.log(error.message)
+      //console.log(error.message)
     }
 
   }
@@ -62,9 +62,9 @@ function ResetPass() {
           backSpeed={50}
           attr="placeholder"
         >
-          <input type="email" name='email' id='email'value={email} className='outline-none border rounded-lg px-3 py-2 focus:border-green-300 text-gray-600 w-[70vw] md:w-[18vw]' autoComplete='off' placeholder='rac@gmail.com' required onChange={handlechange} autoFocus />
+          <input type="email" name='email' id='email'value={email} className='outline-none border rounded-lg px-3 py-2 focus:border-blue-300 text-gray-600 w-[70vw] md:w-[18vw]' autoComplete='off' placeholder='rac@gmail.com' required onChange={handlechange} autoFocus />
         </ReactTyped>
-        <button type='submit' className='outline-none border rounded-lg px-3 py-2 text-white bg-green-500 hover:bg-green-600 mt-6'>Send an OTP</button>
+        <button type='submit' className='outline-none border rounded-lg px-3 py-2 text-white bg-blue-500 hover:bg-blue-600 mt-6'>Send an OTP</button>
         <p className='flex text-xs text-gray-600 gap-2 -mt-1 flex-col text-center'>
           <span>Or</span>
         <Link to={"/login"} className='text-blue-600 hover:underline  hover:text-blue-800 cursor-pointer'>Login</Link>

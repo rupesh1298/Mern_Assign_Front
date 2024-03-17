@@ -18,10 +18,10 @@ const cart=useSelector((state)=>state.cart.data);
         dispatch(removeFromCart(id));
 
         // Send request to server to remove item from cart
-        await axios.delete(`https://foodservice-krks.onrender.com/api/remove-from-cart/${item._id}`);
+        await axios.delete(`https://mern-assignment-vb2z.onrender.com/api/remove-from-cart/${item._id}`);
 
         // Display success message
-        toast(`Removed ${item.name} successfully.`, {
+        toast(`Removed ${item.title} successfully.`, {
             icon: '😣',
         });
     } catch (error) {
@@ -35,6 +35,7 @@ const cart=useSelector((state)=>state.cart.data);
         } else {
             // Other errors
             toast.error("An error occurred while removing the item from the cart.");
+            window.location.reload();
         }
     }
 };
@@ -42,11 +43,12 @@ const cart=useSelector((state)=>state.cart.data);
   const handleIncrement = async (item) => {
     try {
       dispatch(plusItem(item));
-      await axios.put(`https://foodservice-krks.onrender.com/api/increament-quantity/${item._id}`);
+      await axios.put(`https://mern-assignment-vb2z.onrender.com/api/increament-quantity/${item._id}`);
     } catch (error) {
       console.error("Error incrementing quantity:", error);
       // Handle the error appropriately (e.g., show a toast message)
       toast.error("An error occurred while incrementing quantity");
+      window.location.reload();
     }
   };
 
@@ -54,29 +56,29 @@ const cart=useSelector((state)=>state.cart.data);
   const handleDecreament = async (item) => {
     try {
       dispatch(minusItem(item));
-      await axios.put(`https://foodservice-krks.onrender.com/api/decreament-quantity/${item._id}`);
+      await axios.put(`https://mern-assignment-vb2z.onrender.com/api/decreament-quantity/${item._id}`);
     } catch (error) {
       console.error("Error incrementing quantity:", error);
       // Handle the error appropriately (e.g., show a toast message)
       toast.error("An error occurred while incrementing quantity");
+      window.location.reload();
     }
   }
   return (
-    <div className='overflow-hidden'>
+    <div className='overflow-y-scroll h-[60vh] '>
       {
         cart.map((item, Id) => (
-          <div className='shadow-lg flex gap-3 p-2 rounded-lg bg-gray-100 mb-8 ' key={Id}>
-            <BsTrash3Fill className='absolute right-9 text-red-600 text-xl cursor-pointer' onClick={() => removeCartItem(item.id, item)} />
-            <img src={item.img} alt="" className='w-[60px] h-[60px]' />
+          <div className='shadow-lg flex gap-4 p-2 rounded-lg bg-gray-100 mb-8 ' key={Id}>
+            <BsTrash3Fill className='text-red-600 text-xl cursor-pointer flex items-center justify-center' onClick={() => removeCartItem(item.id, item)} />
+            <img src={item.cover_image} alt="" className='w-[60px] h-[60px]' />
             <div className='leading-5' >
-              <h2 className='font-bold text-gray-700'>{item.name}</h2>
-              <div className='flex justify-between my-2'>
-                <span className='text-green-500 font-bold'>₹ {item.price}</span>
-                <div className='flex absolute right-7 mt-2 items-center'>
-
-                  <AiOutlineMinusCircle className=' text-white text-2xl hover:bg-green-400 cursor-pointer mx-2 bg-green-300 rounded-full' onClick={() => handleDecreament(item)} />
+              <h2 className='font-bold text-gray-700'>{item.title}</h2>
+              <div className='flex justify-between my-2 gap-14 md:gap-24'>
+                <span className='text-blue-500 font-bold mt-2'>₹ {item.price}</span>
+                <div className='flex  mr-12 mt-2 items-center justify-end'>
+                  <AiOutlineMinusCircle className=' text-white text-2xl hover:bg-blue-400 cursor-pointer mx-2 bg-blue-300 rounded-full' onClick={() => handleDecreament(item)} />
                   <span>{item.qty}</span>
-                  <AiOutlinePlusCircle className='text-white text-2xl hover:bg-green-400 cursor-pointer mx-2 bg-green-300 rounded-full' onClick={() => handleIncrement(item)} />
+                  <AiOutlinePlusCircle className='text-white text-2xl hover:bg-blue-400 cursor-pointer mx-2 bg-blue-300 rounded-full' onClick={() => handleIncrement(item)} />
                 </div>
               </div>
             </div>

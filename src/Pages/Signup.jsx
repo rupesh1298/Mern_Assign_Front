@@ -17,7 +17,7 @@ function Signup() {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios.post(`https://foodservice-krks.onrender.com/api/signup`, user)
+        const response = await axios.post(`https://mern-assignment-vb2z.onrender.com/api/signup`, user)
         const data = await response.data;
         if (response.status === 201) {
              toast.success("Register SuccessFully...") 
@@ -49,7 +49,7 @@ function Signup() {
                     backSpeed={50}
                     attr="placeholder"
                 >
-                    <input type="email" name='email' id='email' value={user.email} className='outline-none border rounded-lg px-3 py-2 focus:border-green-300 text-gray-600 w-[70vw] md:w-[18vw]' autoComplete='off' placeholder='rac@gmail.com' required onChange={handlechange} />
+                    <input type="email" name='email' id='email' value={user.email} className='outline-none border rounded-lg px-3 py-2 focus:border-blue-300 text-gray-600 w-[70vw] md:w-[18vw]' autoComplete='off' placeholder='rac@gmail.com' required onChange={handlechange} />
                 </ReactTyped>
 
                 <ReactTyped
@@ -60,10 +60,10 @@ function Signup() {
                     backSpeed={50}
                     attr="placeholder"
                 >
-                    <input type="password" name='password' id='password' value={user.password} className='outline-none border rounded-lg px-3 py-2 focus:border-green-300 text-gray-600 w-[70vw] md:w-[18vw] ' autoComplete='off' placeholder='**********' required onChange={handlechange} />
+                    <input type="password" name='password' id='password' value={user.password} className='outline-none border rounded-lg px-3 py-2 focus:border-blue-300 text-gray-600 w-[70vw] md:w-[18vw] ' autoComplete='off' placeholder='**********' required onChange={handlechange} />
                 </ReactTyped>
                 {/* <Link to={"/forgot-password"} className='text-sm text-red-600 hover:underline  hover:text-red-800 cursor-pointer -mb-1 text-center'>Forget Password</Link> */}
-                <button type='submit' className='outline-none border rounded-lg px-3 py-2 text-white bg-green-500 hover:bg-green-600'>SignUp</button>
+                <button type='submit' className='outline-none border rounded-lg px-3 py-2 text-white bg-blue-500 hover:bg-blue-600'>SignUp</button>
                 <p className='flex text-xs text-gray-600 gap-2 -mt-1 flex-col text-center'>
                     <span>Or</span>
                     <Link to={"/login"} className='text-blue-600 hover:underline  hover:text-blue-800 cursor-pointer'>Already Have an Acoount</Link>

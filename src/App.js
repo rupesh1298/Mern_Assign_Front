@@ -9,12 +9,15 @@ import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import ResetPass from './Pages/ResetPass';
 import VerifyOTP from './Pages/VerifyOTP';
+import BookDetails from './components/BookDetails';
+import AdminPanel from './Pages/AdminPanel';
 function App() {
   return (
     <div >
      <Router>
       <Routes>
         <Route path='/' Component={Home}></Route>
+        {/* <Route path='/adminpanel' Component={AdminPanel}></Route> */}
         {/* <Route Component={ProtectedRoute}>
         <Route path='/success' Component={Success}></Route>
         </Route> */}
@@ -23,7 +26,9 @@ function App() {
         <Route path='/login' Component={Login}></Route>
         <Route path='/signup' Component={Signup}></Route>
         <Route path='/forget-pass' Component={ResetPass}></Route>
+        <Route path='/view-book/:id' Component={BookDetails}></Route>
         <Route path='/verify-otp' Component={VerifyOTP}></Route>
+        <Route path='/adminpanel' Component={AdminPanel}></Route>
       </Routes>
      </Router>
     </div>

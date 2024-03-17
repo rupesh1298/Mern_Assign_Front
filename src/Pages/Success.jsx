@@ -24,12 +24,12 @@ export default function Success() {
  const getCartItems = async () => {
     try {
       let user = sessionStorage.getItem("User");
-      console.log(user)
-      const res = await axios.get(`https://foodservice-krks.onrender.com/api/get-cart/${user}`, {
+     // console.log(user)
+      const res = await axios.get(`https://mern-assignment-vb2z.onrender.com/api/get-cart/${user}`, {
         withCredentials: true
       });
       const data = await res.data;
-      console.log(data.cartItems)
+     // console.log(data.cartItems)
       if (!data.success) {
         // If the response indicates failure, handle the error
         throw new Error(data.message);
@@ -50,7 +50,7 @@ export default function Success() {
 
   const handleHome = async () => {
     dispatch(clearCart())
-    await axios.get("https://foodservice-krks.onrender.com/api/clear-cart", { withCredentials: true })
+    await axios.get("https://mern-assignment-vb2z.onrender.com/api/clear-cart", { withCredentials: true })
     navigate("/")
   }
   const handlechange = (e) => {
@@ -73,7 +73,7 @@ export default function Success() {
     e.preventDefault();
     try {
       const response = await toast.promise(
-        axios.post("https://foodservice-krks.onrender.com/api/sendemail", { email: email, cart }),
+        axios.post("https://mern-assignment-vb2z.onrender.com/api/sendemail", { email: email, cart }),
         {
           loading: "Sending invoice...",
           success: (res) => {
@@ -82,12 +82,12 @@ export default function Success() {
             return "Invoice sent successfully!";
           },
           error: (err) => {
-            console.error("Error sending email:", err);
+           // console.error("Error sending email:", err);
             return "Failed to send invoice.";
           },
         }
       );
-      console.log(response);
+      //console.log(response);
     } catch (error) {
       console.error("Error sending email:", error);
     }
@@ -110,7 +110,7 @@ export default function Success() {
             {
               !invoice ? (<ReactTyped
                 strings={[
-                  "rchincholkar@gmail.com",
+                  "rchincholkar1234@gmail.com",
                 ]}
                 typeSpeed={40}
                 backSpeed={50}

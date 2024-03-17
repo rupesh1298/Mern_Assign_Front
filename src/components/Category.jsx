@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ReactTyped } from "react-typed";
-import FoodData from "../data/FoodData.js"
+import BookData from "../data/BookData.js"
 import { useDispatch, useSelector } from 'react-redux'
 import { filterData } from '../Redux/Slices/CartSlices.jsx';
 import { setCategory } from '../Redux/Slices/CategorySlice.jsx';
@@ -9,7 +9,7 @@ export default function CategoryMenu() {
 
   const dispatch = useDispatch();
   const listUniqueCategories = () => {
-    const data = [...new Set(FoodData.map((food) => food.category))]
+    const data = [...new Set(BookData.map((food) => food.category))]
     setCategories(data);
   }
   useEffect(() => {
@@ -20,21 +20,21 @@ export default function CategoryMenu() {
     <div className='mx-6'>
       <h3 className='mb-2 text-xl font-semibold'>Find the <ReactTyped
         strings={[
-          "best food for Lunch....",
-          "best food for Breakfast....",
-          "best food for Dinner....",
+          "best book of Fantacy....",
+          "best book of Epic....",
+          "best book of Historical Fiction....",
         ]}
         typeSpeed={40}
         backSpeed={50}
         loop
-        className='text-green-400 font-bold'
+        className='text-blue-500 font-bold'
       >
       </ReactTyped></h3>
       <div className='flex gap-3 md:overflow-hidden overflow-x-scroll my-5 scroll-smooth'>
-        <button className={`px-3 py-2 rounded-lg bg-gray-200 font-bold hover:bg-green-500 hover:text-white ${selectedCategory === "All" && "bg-green-500 text-white"}`} onClick={() => dispatch(setCategory("All"))}>All</button>
+        <button className={`px-3 py-2 rounded-lg  font-bold hover:bg-blue-600 hover:text-white ${selectedCategory === "All" && 'bg-blue-600 text-white'}`} onClick={() => dispatch(setCategory("All"))}>All</button>
         {
           categories.map((item, id) => (
-            <button className={`px-3 py-2 rounded-lg bg-gray-200 font-bold hover:bg-green-500 hover:text-white ${selectedCategory === item && "bg-green-500 text-white"}`} key={id} onClick={() => dispatch(setCategory(item))} value={item}>{item}</button>
+            <button className={`px-3 py-2 rounded-lg font-bold hover:bg-blue-600 hover:text-white ${selectedCategory === item && "bg-blue-600 text-white"}`} key={id} onClick={() => dispatch(setCategory(item))} value={item}>{item}</button>
           ))
         }
 

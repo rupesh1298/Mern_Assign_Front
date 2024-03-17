@@ -12,11 +12,11 @@ export default function ProtectedRoute() {
   const getItemCart = async () => {
     try {
       const user=sessionStorage.getItem("User");
-      const res=await axios.get(`https://foodservice-krks.onrender.com/getuserbyemail`,{email:user},{
+      const res=await axios.get(`https://foodmato-8suf.onrender.com/getuserbyemail`,{email:user},{
         withCredentials: true,
       })
       const data=await res.data;
-      const response = await axios.get(`https://foodservice-krks.onrender.com/get-cart/${data._id}`);
+      const response = await axios.get(`https://foodmato-8suf.onrender.com/get-cart/${data._id}`);
       setCart(response.data.cartItems);
     } catch (error) {
       console.error("Error fetching cart items:", error);
